@@ -44,7 +44,7 @@ if 'traffic_cll' not in st.session_state:
 # Ambil status lampu saat ini
 current = st.session_state.current_node
 
-# 4. Sidebar Kontrol
+# 4. Sidebar Kontrol.
 with st.sidebar:
     st.header("Kontrol Simulasi")
     st.info(f"Lampu Aktif: **{current.warna}**")
