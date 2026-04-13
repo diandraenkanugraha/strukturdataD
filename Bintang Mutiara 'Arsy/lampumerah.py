@@ -2,8 +2,7 @@ import streamlit as st
 import time
 from streamlit_autorefresh import st_autorefresh
 
-# ── Circular Linked List ──────────────────────────────────────────────────────
-
+# Circular Linked List 
 class Node:
     def __init__(self, color, duration):
         self.color    = color
@@ -41,8 +40,7 @@ class CircularLinkedList:
                 break
         return nodes
 
-# ── Build CLL ────────────────────────────────────────────────────────────────
-
+# Build CLL 
 @st.cache_resource
 def build_cll():
     cll = CircularLinkedList()
@@ -53,8 +51,7 @@ def build_cll():
 
 cll = build_cll()
 
-# ── Session state ─────────────────────────────────────────────────────────────
-
+# Session state 
 if "remaining"  not in st.session_state:
     st.session_state.remaining  = cll.current.duration
 if "running"    not in st.session_state:
@@ -62,7 +59,7 @@ if "running"    not in st.session_state:
 if "last_tick"  not in st.session_state:
     st.session_state.last_tick  = None
 
-# ── Config ────────────────────────────────────────────────────────────────────
+# ── Config 
 
 COLORS = {
     "Merah":  {"hex": "#FF2200", "dim": "#3a0000", "emoji": "🔴", "label_color": "#FF4422"},
@@ -72,7 +69,7 @@ COLORS = {
 
 st.set_page_config(page_title="Lampu Lalu Lintas", page_icon="🚦", layout="centered")
 
-# ── CSS ───────────────────────────────────────────────────────────────────────
+# ── CSS 
 
 st.markdown("""
 <style>
@@ -103,12 +100,12 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ── Header ────────────────────────────────────────────────────────────────────
+# ── Header 
 
 st.title("🚦 Lampu Lalu Lintas")
 st.caption("Simulasi lampu lalu lintas menggunakan **Circular Linked List**")
 
-# ── Tick logic ────────────────────────────────────────────────────────────────
+# ── Tick logic
 
 if st.session_state.running:
     now = time.time()
@@ -124,8 +121,7 @@ current_node = cll.current
 color_cfg    = COLORS[current_node.color]
 remaining    = max(0, int(st.session_state.remaining))
 
-# ── Traffic light visual ──────────────────────────────────────────────────────
-
+# ── Traffic light visual 
 def bulb_style(color_name):
     cfg = COLORS[color_name]
     if current_node.color == color_name:
@@ -145,7 +141,7 @@ st.markdown(f"""
 <div class="state-label" style="color:{color_cfg['label_color']}">{color_cfg['emoji']} {current_node.color}</div>
 """, unsafe_allow_html=True)
 
-# ── Circular Linked List diagram ──────────────────────────────────────────────
+# ── Circular Linked List diagram 
 
 st.markdown("---")
 st.subheader("Struktur Circular Linked List")
@@ -174,15 +170,14 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# ── Info cards ────────────────────────────────────────────────────────────────
-
+# ── Info cards 
 st.markdown("---")
 col1, col2, col3 = st.columns(3)
 col1.metric("Node saat ini", f"{color_cfg['emoji']} {current_node.color}")
 col2.metric("Durasi",        f"{current_node.duration} detik")
 col3.metric("Node berikutnya", f"{COLORS[current_node.next.color]['emoji']} {current_node.next.color}")
 
-# ── Controls ──────────────────────────────────────────────────────────────────
+# ── Controls
 
 st.markdown("---")
 c1, c2, c3 = st.columns(3)
@@ -206,7 +201,7 @@ with c3:
         st.session_state.running    = False
         st.session_state.last_tick  = None
 
-# ── Auto-refresh ──────────────────────────────────────────────────────────────
+# ── Auto-refresh
 
 if st.session_state.running:
     time.sleep(0.05)
